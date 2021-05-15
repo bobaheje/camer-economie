@@ -5,7 +5,7 @@ class LoginController{
 
   static async showLogin(req:Request, res:Response){
 
-    res.render('/login/showlogin');
+    res.render('login/showlogin', {layout:'mainlogin'});
   }
 
 }

@@ -1,4 +1,18 @@
-<div
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" />
+
+  <title>Login</title>
+</head>
+
+<body class="bg-gradient-to-r from-green-400 to-blue-500">
+  <div class="flex items-center justify-center h-screen">
+    <div
   class="flex flex-col w-full max-w-md px-4 py-8 bg-white rounded-lg shadow dark:bg-gray-800 sm:px-6 md:px-8 lg:px-10">
   <div class="self-center mb-6 text-xl font-light text-gray-600 sm:text-2xl dark:text-white">
     Login
@@ -63,3 +77,8 @@
 </div>-->
 
   <script src="/js/login-form.js"></script>
+  </div>
+
+</body>
+
+</html>
