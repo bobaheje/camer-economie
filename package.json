@@ -36,6 +36,8 @@
     "@types/express-handlebars": "^3.1.0",
     "@types/express-session": "^1.17.3",
     "@types/express-validator": "^3.0.0",
+    "@types/moment": "^2.13.0",
+    "@types/slug": "^0.9.1",
     "@types/title-case": "^1.1.2",
     "bcrypt": "^5.0.1",
     "dotenv": "^9.0.2",
@@ -44,7 +46,9 @@
     "express-handlebars": "^5.3.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.11.1",
+    "moment": "^2.29.1",
     "mongoose": "5.10.18",
+    "slug": "^5.0.1",
     "title-case": "^3.0.3"
   },
   "scripts": {

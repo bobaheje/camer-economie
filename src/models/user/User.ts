@@ -1,7 +1,11 @@
 import { AutoIncrementID } from '@typegoose/auto-increment';
-import { DocumentType, plugin, prop, ReturnModelType } from '@typegoose/typegoose';
+import { DocumentType, plugin, pre, prop, ReturnModelType } from '@typegoose/typegoose';
 import { compare, hash } from 'bcrypt';
 
+@pre<User>('save', async function(){
+  // eslint-disable-next-line no-invalid-this
+  this.password=await hash(this.password, 10);
+})
 
 @plugin(AutoIncrementID, {})
 class User {
@@ -48,7 +52,7 @@ class User {
 
   public static async updatepassword(this:ReturnModelType<typeof User>, email:string, password:string, confirmation:string){
     const user = await this.findOne({email});
-    user.password=await hash(password as string, 10);
+    user.password=password;
     user.active=true;
     try{
       await user.save();

@@ -5,17 +5,13 @@ import { request } from 'http';
 import { titleCase } from 'title-case';
 import { User } from '../models/user/User';
 
-@pre<User>('save', function(){
-   // eslint-disable-next-line no-invalid-this
-   this.password=hash(this.password as string, 10);
-  
-})
+
 class UserController {
 
   static userModel=getModelForClass(User);
 
   static async addUser(req:Request, res:Response){
-    res.render('dashboard/user', {layout:'dashboard'});
+    res.render('dashboard/user/user', {layout:'dashboard'});
   }
 
   static async createUser(req:Request, res:Response){
@@ -31,10 +27,10 @@ class UserController {
       // eslint-disable-next-line no-console
       console.log(e);
     }
-    res.redirect('/dashboard/user');
+    res.redirect('/dashboard/user/list');
   }
   static async showUpdateUserPassword(req:Request, res:Response){
-    res.render('dashboard/userupdatepw', {layout:'dashboard'});
+    res.render('dashboard/user/userupdatepw', {layout:'dashboard'});
   }
 
 
@@ -45,6 +41,52 @@ class UserController {
     
     
   }
+
+  static async getUsers(req:Request, res:Response){
+    const users =await UserController.userModel.find({}).sort({nom:'asc'}).lean();
+    res.render('dashboard/user/userlist', {layout:'dashboard', datas:users});
+  }
+
+  static async getUser(req:Request, res:Response){
+    
+    const id=parseInt(req.params.id);
+    try{
+      const user=await UserController.userModel.findById({_id:id}).lean();
+      res.render('dashboard/user/useredit', {layout:'dashboard', datas:user});
+    }
+    catch(e){
+      req.flash('error', e);
+      console.log(e);
+      res.redirect('/dashboard/user/list');
+    }
+    
+    
+  }
+
+  
+  public static async logOut(req:Request, res:Response, next:NextFunction){
+    req.session.user=null;
+    res.redirect('/login');
+  }
+
+  public static async updateUser(req:Request, res:Response){
+
+    const id=parseInt(req.params.hiddenid);
+    const updates=Object.keys(req.body);
+    const user=UserController.userModel.findById({_id:id});
+
+    try{
+      updates.forEach(element => user[element]=req.body[element]);
+      await user.save();
+      res.redirect('/dashboard/user/list');
+    }
+    catch(e){
+      req.flash('error', 'Problem occurs when updating');
+      console.log(e);
+      res.redirect('/dashboard/user/list');
+    }
+  }
+
 }
 
 export {UserController};

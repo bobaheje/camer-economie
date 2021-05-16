@@ -6,6 +6,7 @@ import session, { MemoryStore } from 'express-session';
 import { resolve } from 'path';
 import { DatabaseConnector } from './app.database';
 import { router } from './app.router';
+import { Helpers } from './views/helpers/Helper';
 
 
 //setup environment variables
@@ -23,11 +24,14 @@ app.use(express.static(`${process.cwd()}/public`));
 //Parse request
 app.use(urlencoded({extended:true}));
 
+
 //HBS templating engine
 /******************** */
 app.set('views', resolve(process.cwd(), 'src', 'views'));
 const hbsConfig={extname:'.hbs'};
 const hbs=exphbs.create(hbsConfig);
+Helpers.registerEqHelpers(hbs);
+Helpers.registerDateformatHelpers(hbs);
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
@@ -35,11 +39,11 @@ app.set('view engine', 'hbs');
 
 const sessionStore:MemoryStore=new MemoryStore();
 app.use(session({
-    cookie:{maxAge:60000},
+    cookie:{maxAge:1800000},
     store:sessionStore,
     saveUninitialized:true,
     resave:true,
-    secret:'triptyk'
+    secret:process.env.APP_SECRET
 }));
 
 //Flash Messages Management

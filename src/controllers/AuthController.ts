@@ -11,7 +11,7 @@ class AuthController {
     {
       req.session.user=user;
       // eslint-disable-next-line no-unused-expressions
-      user.active ? res.redirect('/dashboard/user'): res.redirect('/dashboard/user/pwupdate');
+      user.active ? user.role==='admin' ? res.redirect('/dashboard/user/list'): res.redirect('/dashboard/user/list') : res.redirect('/dashboard/user/pwupdate');
       
     }
     else{
@@ -25,6 +25,8 @@ class AuthController {
       console.log(req.session.user);
       req.session.user ? next() : res.redirect('/login');
   }
+
+  
 }
 
 export {AuthController};
